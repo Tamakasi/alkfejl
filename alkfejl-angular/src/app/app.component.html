@@ -1,15 +1,15 @@
 <mat-toolbar color="primary">
-    Shopping List
+    Pomodoro
     <span class="left">
-        <button mat-button routerLink="/">Bevásárlólista</button>
-        <button mat-button routerLink="/family">Családtagok</button>
+        
+        <button mat-button routerLink="/folder">Csoportok</button>
     </span>
     <span class="right">
         <button *ngIf="!authService.isLoggedIn()" mat-button routerLink="/login">
             Bejelentkezés
         </button>
         <button *ngIf="authService.isLoggedIn()" mat-button
-                (click)="authService.logout()">
+                (click)="authService.logout()" routerLink="/login">
             Kijelentkezés
         </button>
     </span>

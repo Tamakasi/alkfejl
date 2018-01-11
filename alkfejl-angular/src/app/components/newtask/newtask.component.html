@@ -1,0 +1,45 @@
+<mat-card>
+  <mat-card-content>
+    <h3>Új task létrehozása</h3>
+
+    
+    <br>
+    <label>Leírás: </label>
+    <mat-form-field>
+      <input matInput type="text" placeholder="Leírás" #descriptionInput>
+    </mat-form-field>
+    <br>
+    <label>Prioritás: </label>
+    <mat-form-field >
+        <input matInput type="number" placeholder="0-10" #priorityInput>
+    </mat-form-field>
+    <br>
+    <label>Határidő: </label>
+    <mat-form-field>
+      <input matInput type="" placeholder="pl.: 2018-01-01 12:24" #deadlineInput>
+    </mat-form-field>
+    <br>
+    <span>
+      <label>
+        Csoport: 
+      </label>
+    </span>
+    <mat-form-field>
+      <mat-select placeholder="Csoport" [(value)]="this.selectedFolder">
+        <mat-option *ngFor="let folder of _folders" [value]="folder">{{ folder.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br>
+    <button mat-raised-button color="primary"
+        (click)="submit(deadlineInput.value, descriptionInput.value, priorityInput.value)">
+      Létrehozás
+    </button>
+  </mat-card-content>
+  <mat-error *ngIf="error != null">{{error}}</mat-error>
+</mat-card>
+
+    
+
+
+    
+

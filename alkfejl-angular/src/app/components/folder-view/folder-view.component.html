@@ -1,0 +1,11 @@
+
+<div *ngFor ="let folder2 of _folders">
+  <mat-card>
+    <app-tasklist [folder]="folder2"></app-tasklist>
+  </mat-card>
+</div>
+
+<mat-card>
+  <button mat-raised-button color="primary" routerLink="/newtask">Új taszk</button>
+  <button mat-raised-button color="primary" routerLink="/newfolder">Új csoport</button>
+</mat-card>

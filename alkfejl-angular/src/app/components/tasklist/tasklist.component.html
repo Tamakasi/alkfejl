@@ -1,0 +1,9 @@
+<mat-card class="tasklist">
+  <mat-card-content>
+    <h3>{{this.folder.name}}</h3>
+    <h4>{{this.folder.description}}</h4>
+    <mat-list>
+        <app-task *ngFor="let task of tasks" [task]="task"></app-task>
+    </mat-list>
+  </mat-card-content>
+</mat-card>

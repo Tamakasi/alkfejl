@@ -1,0 +1,37 @@
+<mat-card>
+    <mat-card-content>
+      <h3>Új Folder létrehozása</h3>
+  
+      
+      <br>
+      <label>Név: </label>
+      <mat-form-field>
+        <input matInput type="text" placeholder="Név" #nameInput>
+      </mat-form-field>
+      <br>
+      <label>Leírás: </label>
+      <mat-form-field>
+        <input matInput type="text" placeholder="Leírás" #descriptionInput>
+      </mat-form-field>
+      <br>
+      <label>Kategória/szín: </label>
+      <mat-form-field >
+          <input matInput type="text" placeholder="Color" #colorInput>
+      </mat-form-field>
+      <br>
+
+      <br>
+      <button mat-raised-button color="primary"
+          (click)="submit(nameInput.value, descriptionInput.value, colorInput.value)">
+        Létrehozás
+      </button>
+    </mat-card-content>
+    <mat-error *ngIf="error != null">{{error}}</mat-error>
+  </mat-card>
+  
+      
+  
+  
+      
+  
+  

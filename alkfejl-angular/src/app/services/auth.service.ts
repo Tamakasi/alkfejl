@@ -54,7 +54,7 @@ export class AuthService {
   public register(name: string, password: string, email:string) {
     const result = new Subject<boolean>();
     console.log(email);
-    this.http.post(api + 'us/register', { name, password, email }).subscribe((user) => {
+    this.http.post(api + 'user/register', { "name":name, "password":password, "email":email }).subscribe((user) => {
       AuthService.user = user as User;
       result.next(true);
     }, (error) => {
