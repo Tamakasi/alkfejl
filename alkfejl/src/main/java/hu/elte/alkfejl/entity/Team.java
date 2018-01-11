@@ -5,6 +5,7 @@
  */
 package hu.elte.alkfejl.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -36,6 +37,7 @@ public class Team extends BaseEntity {
     @Column
     private String description;
     
+    @JsonIgnore
     @OneToMany(targetEntity = Folder.class, 
                cascade = CascadeType.ALL)
     private List<Folder> folders = new ArrayList<Folder>();

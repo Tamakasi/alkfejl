@@ -5,15 +5,19 @@
  */
 package hu.elte.alkfejl.controller;
 
+import form.FolderAndTask;
+import form.FolderBody;
 import hu.elte.alkfejl.annotation.Role;
 import hu.elte.alkfejl.entity.Folder;
+import hu.elte.alkfejl.entity.Task;
 import hu.elte.alkfejl.entity.Team;
 import hu.elte.alkfejl.entity.User;
 import hu.elte.alkfejl.repository.FolderRepository;
 import hu.elte.alkfejl.repository.TeamRepository;
 import hu.elte.alkfejl.repository.UserRepository;
 import hu.elte.alkfejl.service.UserService;
-import java.util.ArrayList;
+import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -23,7 +27,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -40,70 +46,21 @@ public class FolderController {
     @Autowired
     private UserService userService;
     
-    @PostMapping(value="/create/user")
     @ResponseBody
-    @Role({User.Role.USER, User.Role.ADMIN})
-    public ResponseEntity createWithUser(
-        @RequestParam(  value = "name", required = true ) String name,
-        @RequestParam(  value = "description", required = false ) String description,
-        @RequestParam(  value = "color", required = false )String color
-        ) { 
-
-            User user = null;
-            try {
-                user = userRepository.findById(userService.getUser().getId()).get();
-            } catch (NoSuchElementException e) {
-                System.err.println("User not found");
-                user = null;
-            }
-            if(user != null) {
-                Folder folder = new Folder(name, description, color);
-                user.getFolders().add(folder);
-                userRepository.save(user);
-                return ResponseEntity.ok(user);
-            } else {
-                return new ResponseEntity(HttpStatus.BAD_REQUEST);
-            }
-    }
-    
-    @PostMapping(value="/create/team")
-    @ResponseBody
-    @Role({User.Role.USER, User.Role.ADMIN})
-    public ResponseEntity createWithTeam(
-        @RequestParam(  value = "team", required = true )Long teamId,
-        @RequestParam(  value = "name", required = true ) String name,
-        @RequestParam(  value = "description", required = false ) String description,
-        @RequestParam(  value = "color", required = false )String color
-        ) {
-
-            User user = null;
-            try {
-                user = userRepository.findById(userService.getUser().getId()).get();
-            } catch (NoSuchElementException e) {
-                System.err.println("User not found");
-                user = null;
-            }
-            
-            Team team = null;
-            try {
-                team = teamRepository.findById(teamId).get();
-            } catch (NoSuchElementException e) {
-                System.err.println("Team not found");
-                team = null;
-            }
-            
-            Folder folder = new Folder();
-            if(user != null && team != null) {
-                if(name != null) folder.setName(name);
-                if(description != null) folder.setDescription(description);
-                if(color != null) folder.setColor(color);
-                
-                team.getFolders().add(folder);
-                folderRepository.save(folder);
-                return ResponseEntity.ok(folder);
-            } else {
-                return new ResponseEntity(HttpStatus.BAD_REQUEST);
-            }
+    @RequestMapping(value="/add",  method = RequestMethod.POST)
+    public ResponseEntity create(@RequestBody FolderBody fb) throws ParseException{
+        Folder f = new Folder(fb.getName(), fb.getDescription(), fb.getColor());
+        User u = this.userRepository.findOne(this.userService.getUser().getId());
+        
+        u.getFolders().add(f);
+        this.userRepository.save(u);
+        
+        //Folder nf = folderRepository.save(f);
+        //System.out.println("AAAAAAAAAAAAAAAAAAAAAAAA"+nf);
+        
+        
+        return ResponseEntity.ok(u);
+        
     }
     
     @PostMapping(value="/delete")
@@ -174,11 +131,10 @@ public class FolderController {
         return found;
     }
     
-    @PostMapping(value="/list")
+    @RequestMapping(value="/list")
     @ResponseBody
     @Role({User.Role.USER, User.Role.ADMIN})
     public ResponseEntity list() {
-        
         List<Folder> folders = userService.getUser().getFolders();
         List<Folder> notDeletedFolders = new LinkedList<Folder>();
         for(Folder f : folders) {

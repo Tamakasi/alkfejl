@@ -1,5 +1,6 @@
 package hu.elte.alkfejl.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import hu.elte.alkfejl.annotation.Role;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
@@ -39,10 +41,13 @@ public class User extends BaseEntity {
     @Column(unique=true, nullable = false)
     private String email;
     
-    @OneToMany(targetEntity = Folder.class, 
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER,
+                targetEntity = Folder.class, 
                cascade = CascadeType.ALL)
     private List<Folder> folders = new ArrayList<Folder>();
     
+    @JsonIgnore
     @ManyToMany(targetEntity = Team.class,
                 cascade = CascadeType.ALL)
     private List<Team> teams = new ArrayList<Team>(); 

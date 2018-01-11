@@ -11,6 +11,7 @@ import hu.elte.alkfejl.entity.User;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -32,6 +33,8 @@ public interface TeamRepository extends CrudRepository<Team, Long>{
     //void invite(User inviter, Team team, User invited);
     
     //void join(User user, Team team);
+
+    //public ResponseEntity findAllByUser(User user);
     
     
     

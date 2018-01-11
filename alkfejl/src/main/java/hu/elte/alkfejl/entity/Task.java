@@ -5,7 +5,9 @@
  */
 package hu.elte.alkfejl.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.sql.Timestamp;
+import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,27 +22,33 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Cacheable(false)
 @EqualsAndHashCode(callSuper = true)
 public class Task extends BaseEntity {
    
-    public Task(Folder folder, String description) {
-        this.folder = folder;
+    
+    public Task(Task t) {
+        this.state = "created";
+        this.description = t.getDescription();
+        this.priority = t.getPriority();
+    }
+    
+    public Task(String description) {
         this.state = "created";
         this.description = description;
     }
     
-    public Task(Folder folder, String description, int priority) {
-        this.folder = folder;
+    public Task(String description, int priority) {
         this.state = "created";
         this.description = description;
         this.priority = priority;
     }
     
-    public Task(Folder folder, String description, int priority, Timestamp deadline) {
-        this.folder = folder;
+    public Task(String description, int priority, Timestamp deadline) {
         this.state = "created";
         this.description = description;
         this.priority = priority;
+        this.deadline = deadline;
     }
     //java.sql.Timestamp, de lehet változtatni kell még
     @Column(nullable = false)
@@ -54,14 +62,6 @@ public class Task extends BaseEntity {
     
     @Column(nullable = false)
     private int priority = 5;
-    
-    @ManyToOne( targetEntity = User.class, 
-               cascade = CascadeType.ALL)
-    private User user;
-    
-    @ManyToOne( targetEntity = Folder.class, 
-               cascade = CascadeType.ALL)
-    private Folder folder;
     
     @Column(nullable = false)
     private boolean deleted = false;
