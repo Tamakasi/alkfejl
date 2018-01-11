@@ -1,0 +1,38 @@
+<mat-card>
+  <mat-list-item [ngStyle]="{'background-color':this.stateColor}">
+    <a class="btn-floating btn-large waves-effect waves-light red">
+      <button mat-raised-button color="primary" (click)="done('completed')">
+        <mat-icon>done</mat-icon>
+        Befejez
+      </button>
+    </a>
+    <button mat-raised-button color="secondary"
+         *ngIf="!isEditOn()"
+         (click)="edit()"
+         class="btn-floating btn-large waves-effect waves-light red">
+      <mat-icon>mode_edit</mat-icon>
+      Edit
+    </button>
+    <mat-form-field  *ngIf="isEditOn()">
+      <mat-select placeholder="Státusz">
+          <mat-option value="completed" (click)="editDone('completed')">
+              completed
+          </mat-option>
+          <mat-option value="created" (click)="editDone('created')">
+              in progress
+          </mat-option>
+          <mat-option value="dropped" (click)="editDone('dropped')">
+              dropped
+          </mat-option>
+      </mat-select>
+    </mat-form-field>
+    
+    
+    <mat-icon mat-list-icon>label</mat-icon>
+    <h4 mat-line>{{this.deadline}}</h4>
+    <p mat-line>{{task.description}}</p>
+    <h3 mat-line>Fontosság: {{task.priority}}</h3>
+  </mat-list-item>
+
+  
+</mat-card>

@@ -5,6 +5,7 @@ import hu.elte.alkfejl.entity.Task;
 import hu.elte.alkfejl.entity.User;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,7 +14,11 @@ public interface TaskRepository extends CrudRepository<Task, Long> {
     
     //List<Task> list();
     
-    //void create(User user, Group group, Timestamp deadline, String description, int priority);
+    Optional<Task> findById(Long id);
+    
+    Task save(Task t);
+    
+    //Iterable<Task> findAllByUser(User user);
     
     void delete(Task task);
     

@@ -46,15 +46,11 @@ public class UserService {
         return this.user == null;
     }
 
-    @ResponseBody
-    @PostMapping(value="/register")
     public ResponseEntity register(String name, String password, String email) {
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAA"+email);
         User newUser = new User(name, password, email);
         newUser.setRole(User.Role.USER);
         if(!userRepository.findByName(name).isPresent()) {
             this.user = userRepository.save(newUser);
-            System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBB"+this.user);
             return ResponseEntity.ok(this.user);
         } else {
             return new ResponseEntity(HttpStatus.CONFLICT);

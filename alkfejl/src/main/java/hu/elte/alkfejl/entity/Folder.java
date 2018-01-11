@@ -5,11 +5,14 @@
  */
 package hu.elte.alkfejl.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -23,6 +26,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Cacheable(false)
 @EqualsAndHashCode(callSuper = true)
 public class Folder extends BaseEntity {
     
@@ -38,6 +42,10 @@ public class Folder extends BaseEntity {
         this.color=color;
     }
     
+    public void addTask(Task t) {
+        this.tasks.add(t);
+    }
+    
         
     @Column(nullable = false)
     private String name;
@@ -48,7 +56,9 @@ public class Folder extends BaseEntity {
     @Column(nullable = false)
     private String color = "green";
     
-    @OneToMany(targetEntity = Task.class, 
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER,
+               targetEntity = Task.class, 
                cascade = CascadeType.ALL)
     private List<Task> tasks = new ArrayList<Task>();
     

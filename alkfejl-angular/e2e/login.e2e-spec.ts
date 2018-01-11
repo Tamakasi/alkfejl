@@ -17,16 +17,16 @@ describe('Login functionality', () => {
     });
 
     it('should fail to login for invalid credentials', () => {
-        element(by.css('input[type="email"]')).sendKeys('éasklduélasukdtzél@léasdkélasku.aléskdj');
+        element(by.id('namefield')).sendKeys('éasklduélasukdtzél@léasdkélasku.aléskdj');
         element(by.css('input[type="password"]')).sendKeys('éasklduélasukdtzé');
         element(by.buttonText('Bejelentkezés')).click();
         expect(getPath()).toEqual('/login');
     });
 
     it('should log in for valid credentials', () => {
-        element(by.css('input[type="email"]')).sendKeys('anna@example.com');
-        element(by.css('input[type="password"]')).sendKeys('almakorte');
+        element(by.id('namefield')).sendKeys('test1');
+        element(by.css('input[type="password"]')).sendKeys('test1');
         element(by.buttonText('Bejelentkezés')).click();
-        expect(getPath()).toEqual('/');
+        expect(getPath()).toEqual('/folder');
     });
 });

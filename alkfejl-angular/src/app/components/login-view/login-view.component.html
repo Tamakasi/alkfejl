@@ -2,7 +2,7 @@
   <mat-card-content>
     <h3>Bejelentkezés</h3>
     <mat-form-field>
-      <input matInput type="" placeholder="Név" #nameInput>
+      <input matInput type="" placeholder="Név" #nameInput id="namefield">
     </mat-form-field>
     <br>
     <mat-form-field>
@@ -35,6 +35,6 @@
         (click)="tryRegister(nameInput.value, passwordInput.value, emailInput.value)">
       Regisztráció2
     </button>
-    <div *ngIf="regError">{{error}}</div>
+    <div id="regerrordiv" *ngIf="regError">{{this.regError}}</div>
   </mat-card-content>
 </mat-card>
