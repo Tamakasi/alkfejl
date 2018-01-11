@@ -30,7 +30,7 @@ export class LoginViewComponent implements OnInit {
   private tryLogin(name: string, password: string) {
     this.authService.login(name, password).subscribe((success: boolean) => {
       if (success) {
-        const redirectTo: string = this.route.snapshot.queryParamMap.get('from') || '';
+        const redirectTo: string = this.route.snapshot.queryParamMap.get('from') || 'folder';
         this.router.navigate([redirectTo]);
       } else {
         this.loginError = 'Hibás felhasnzálónév vagy jelszó';
@@ -42,9 +42,11 @@ export class LoginViewComponent implements OnInit {
     console.log(name, password, email);
     this.authService.register(name, password, email).subscribe((success: boolean) => {
       if (success) {
-        const redirectTo: string = this.route.snapshot.queryParamMap.get('from') || '';
+        console.log("reg success");
+        const redirectTo: string = this.route.snapshot.queryParamMap.get('from') || 'folder';
       } else {
-        this.regError = 'Név foglalt';
+        this.regError = 'Üresen hagyott mezők vagy foglalt felhasználó név';
+        console.log("reg error");
       }
     });
   
